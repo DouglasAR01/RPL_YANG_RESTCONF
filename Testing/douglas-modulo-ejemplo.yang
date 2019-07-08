@@ -35,7 +35,7 @@ module douglas-modulo-ejemplo {
   // objeto definido por el modelo.
   container animales{
     list animal{
-      key "nombre";
+      key "especie";
       uses datos-del-animal;
     }
   }
