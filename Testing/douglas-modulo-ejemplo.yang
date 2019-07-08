@@ -1,0 +1,43 @@
+// Nombre del módulo
+module douglas-modulo-ejemplo {
+
+  yang-version "1.1";
+  namespace "https://www.uis.edu.co";
+  prefix "douglas-modulo-ejemplo";
+  description "Este es un módulo de ejemplo, el cuál modela a un animal";
+
+  // En este nodo, se define el tipo de dato edad, derivado del tipo de dato
+  // preintegrado en YANG, uint16.
+  // Consiste en un entero sin signo de 16 bits con un rango que va entre 1
+  // 300 años.
+  typedef edad{
+    type uint16{
+      range 1..300;
+    }
+  }
+  // En este nodo de tipo grouping, se agruparán los datos generales presentes
+  // en cualquier animal.
+  grouping datos-del-animal {
+    leaf filo {
+      type string;
+    }
+    leaf clase {
+      type string;
+    }
+    leaf especie {
+      type string;
+    }
+    leaf edad{
+      type edad;
+    }
+  }
+  // En este nodo de tipo contenedor, es donde se define qué puede contener un
+  // objeto definido por el modelo.
+  container animales{
+    list animal{
+      key "nombre";
+      uses datos-del-animal;
+    }
+  }
+
+}
