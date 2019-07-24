@@ -1,0 +1,53 @@
+module douglas-mini-switch {
+  yang-version 1.1;
+  namespace "https://www.uis.edu.co";
+  prefix "mini-switch";
+  description
+    "Este es un módulo de ejemplo, el cuál modela un switch
+     con características básicas.";
+
+  /**
+  * Nuevo tipo de dato que representa el número máximo de vlan asignado
+  **/
+  typedef vlan {
+    type uint16 {
+      range 1..4094; //Número máximo de vlans
+    }
+  }
+
+  /**
+  * Nuevo tipo de dato que representa el número de puertos del switch
+  * que están habilitados.
+  **/
+  typedef puertos-habilitados {
+    type uint16 {
+      range 1..32; //Número de puertos presentes en el switch
+    }
+  }
+
+  /**
+  * Agrupamiento de los datos más básicos de un switch.
+  **/
+  grouping datos-switch {
+    leaf vlan {
+      type vlan;
+    }
+    leaf nombre {
+      type string;
+    }
+    leaf puertos-habilitados {
+      type puertos-habilitados;
+    }
+  }
+
+  /**
+  * Contenedor que almacena una lista de switches instanciables.
+  **/
+  container switches {
+    list switch {
+      // Cada nuevo switch instanciado se debe identificar un nombre único.
+      key "nombre";
+      uses datos-switch; // Implementa el agrupamiento.
+    }
+  }
+}
