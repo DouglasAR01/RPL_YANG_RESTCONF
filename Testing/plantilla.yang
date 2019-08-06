@@ -1,0 +1,48 @@
+module openconfig- {
+
+  yang-version "1.1";
+
+  // namespace
+  namespace "http://openconfig.net/yang/";
+
+  prefix "";
+
+  // import some basic types
+  import ietf-inet-types { prefix inet; }
+
+
+  // meta
+  organization "OpenConfig working group";
+
+  contact
+    "OpenConfig working group
+    www.openconfig.net";
+
+  description
+    "This module ";
+
+  revision "" {
+    description
+      "Initial revision";
+    reference "TBD";
+  }
+
+  // extension statements
+
+  // feature statements
+
+  // identity statements
+
+  // typedef statements
+
+  // grouping statements
+
+  // data definition statements
+
+  // augment statements
+
+  // rpc statements
+
+  // notification statements
+
+}
