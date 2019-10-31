@@ -1,0 +1,79 @@
+module uis-rpl {
+
+  yang-version "1.1";
+
+  // namespace
+  namespace "http://www.uis.edu.co";
+
+  prefix rpl;
+
+  // import some basic types
+  import ietf-routing {
+    prefix "rt";
+  }
+
+  import ietf-yang-types {
+    prefix "yang";
+  }
+
+  import ietf-interfaces {
+    prefix "if";
+  }
+
+  import ietf-ip {
+    prefix "ip";
+  }
+
+
+  // meta
+  organization "Universidad Industrial de Santander";
+
+  contact
+    "Douglas Andrés Ramírez
+    ra.douglas@hotmail.com";
+
+  description
+    "This module is an a first approach to a fully RPL YANG model";
+
+  revision 2019-10-15 {
+    description
+      "Initial revision";
+  }
+
+  // feature statements
+
+  // identity statements
+  identity rpl {
+    base rt:routing-protocol;
+    description "Identity for the RPL routing protocol.";
+  }
+
+  // typedef statements
+  // #Aquí van todos los tipos de datos adicionales que necesite
+
+  // grouping statements
+
+  // data definition statements
+
+  // augment statements
+  augment "/rt:routing/rt:control-plane-protocols/"
+    + "rt:control-plane-protocol"{
+
+      when "derived-from(rt:type, rpl:rpl)"{
+        description
+          "This augment is only valid for a routing protocol instance
+          of RPL.";
+      }
+
+      description "RPL augmentation.";
+      container rpl {
+        description "RPL data.";
+        // Aquí va todo el contenido del protocolo
+      }
+    }
+
+  // rpc statements
+  // #Aquí va todo lo relacionado a restconf
+  // notification statements
+
+}
