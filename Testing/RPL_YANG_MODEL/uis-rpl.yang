@@ -3,9 +3,9 @@ module uis-rpl {
   yang-version "1.1";
 
   // namespace
-  namespace "http://www.uis.edu.co";
+  namespace "http://www.uis.edu.co"; //Cambiar
 
-  prefix rpl;
+  prefix "rpl";
 
   // import some basic types
   import ietf-routing {
@@ -69,6 +69,30 @@ module uis-rpl {
       container rpl {
         description "RPL data.";
         // Aquí va todo el contenido del protocolo
+
+        //Contenedor de interfaces
+        container interfaces {
+          description "Containing a list of RPL interfaces.";
+          list interface {
+            key "interface";
+            description "List of RPL interfaces.";
+            leaf interface {
+              type if:interface-ref;
+              description "Enable RPL on this interface.";
+              // El must verifica que la interfaz a enlistar sea de una instancia RPL
+              // Y que el protocolo IP sea la versión 6
+              must "(derived-from-or-self("
+                + "../../../../rt:type, 'rpl:rpl') and "
+                + "/if:interfaces/if:interface[if:name=current()]/"
+                + "ip:ipv6)" {
+                error-message "Invalid interface type.";
+                description
+                  "RPL can only be enabled on IPv6 interfaces.";
+              }
+            }
+
+          } //Fin lista interfaces
+        } //Fin contenedor interfaces
       }
     }
 
