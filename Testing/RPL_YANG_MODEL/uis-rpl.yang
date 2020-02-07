@@ -3,7 +3,7 @@ module uis-rpl {
   yang-version "1.1";
 
   // namespace
-  namespace "http://www.uis.edu.co"; //Cambiar
+  namespace "urn:ietf:params:xml:ns:yang:uis-rpl"; //Cambiar
 
   prefix "rpl";
 
@@ -90,14 +90,37 @@ module uis-rpl {
                   "RPL can only be enabled on IPv6 interfaces.";
               }
             }
-
+            // TEMPORAL: ES PARA ROBAR EL BACKEND EN DESARROLLO
+            leaf cost {
+              type uint8 {
+                range 0..200;
+              }              
+            }
+            container statistics {
+              // Estadísticas que almacena cada interfaz que corra RPL
+            }
           } //Fin lista interfaces
         } //Fin contenedor interfaces
-      }
+      } //Fin contenedor de RPL
     }
 
   // rpc statements
   // #Aquí va todo lo relacionado a restconf
+  rpc temp-get-interface-cost{
+    input {
+      leaf interface {
+        type if:interface-ref;
+        mandatory true;
+      }
+    }
+
+    output {
+      leaf cost {
+        type uint8;
+      }
+    }
+  } //Fin del rpc
+
   // notification statements
 
 }

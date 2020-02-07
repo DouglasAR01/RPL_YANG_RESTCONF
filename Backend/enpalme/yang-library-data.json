@@ -1,0 +1,21 @@
+{
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "e595da11ace92c0d881995fa7e56bbe86f1f48e9",
+    "module": [
+      {
+        "name": "ietf-yang-types",
+        "revision": "2013-07-15",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types",
+        "conformance-type": "import",
+        "schema": "https://github.com/YangModels/yang/blob/master/standard/ietf/RFC/ietf-yang-types.yang"
+      },
+      {
+        "name": "uis-rpl",
+        "revision": "2020-02-06",
+        "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
+        "conformance-type": "implement",
+        "schema": "https://www.uis.edu.co"
+      }
+    ]
+  }
+}
