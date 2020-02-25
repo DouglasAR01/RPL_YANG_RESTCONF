@@ -1,0 +1,125 @@
+module uis-rpl {
+
+  yang-version "1.1";
+
+  // namespace
+  namespace "urn:ietf:params:xml:ns:yang:uis-rpl"; //Cambiar
+
+  prefix "rpl";
+
+  // import some basic types
+  import ietf-routing {
+    prefix "rt";
+  }
+
+  import ietf-yang-types {
+    prefix "yang";
+  }
+
+  import ietf-interfaces {
+    prefix "if";
+  }
+
+  import ietf-ip {
+    prefix "ip";
+  }
+
+
+  // meta
+  organization "Universidad Industrial de Santander";
+
+  contact
+    "Douglas Andrés Ramírez
+    ra.douglas@hotmail.com";
+
+  description
+    "This module is an a first approach to a fully RPL YANG model";
+
+  revision 2019-10-15 {
+    description
+      "Initial revision";
+  }
+
+  // feature statements
+
+  // identity statements
+  identity rpl {
+    base rt:routing-protocol;
+    description "Identity for the RPL routing protocol.";
+  }
+
+  // typedef statements
+  // #Aquí van todos los tipos de datos adicionales que necesite
+
+  // grouping statements
+
+  // data definition statements
+
+  // augment statements
+  augment "/rt:routing/rt:control-plane-protocols/"
+    + "rt:control-plane-protocol"{
+
+      when "derived-from(rt:type, rpl:rpl)"{
+        description
+          "This augment is only valid for a routing protocol instance
+          of RPL.";
+      }
+
+      description "RPL augmentation.";
+      container rpl {
+        description "RPL data.";
+        // Aquí va todo el contenido del protocolo
+
+        //Contenedor de interfaces
+        container interfaces {
+          description "Containing a list of RPL interfaces.";
+          list interface {
+            key "interface";
+            description "List of RPL interfaces.";
+            leaf interface {
+              type if:interface-ref;
+              description "Enable RPL on this interface.";
+              // El must verifica que la interfaz a enlistar sea de una instancia RPL
+              // Y que el protocolo IP sea la versión 6
+              must "(derived-from-or-self("
+                + "../../../../rt:type, 'rpl:rpl') and "
+                + "/if:interfaces/if:interface[if:name=current()]/"
+                + "ip:ipv6)" {
+                error-message "Invalid interface type.";
+                description
+                  "RPL can only be enabled on IPv6 interfaces.";
+              }
+            }
+            // TEMPORAL: ES PARA ROBAR EL BACKEND EN DESARROLLO
+            leaf cost {
+              type uint8;
+              range 0..200;
+            }
+            container statistics {
+              // Estadísticas que almacena cada interfaz que corra RPL
+            }
+          } //Fin lista interfaces
+        } //Fin contenedor interfaces
+      } //Fin contenedor de RPL
+    }
+
+  // rpc statements
+  // #Aquí va todo lo relacionado a restconf
+  rpc temp-get-interface-cost{
+    input {
+      leaf interface {
+        type if:interface-ref;
+        mandatory true;
+      }
+    }
+
+    output {
+      leaf cost {
+        type uint8;
+      }
+    }
+  } //Fin del rpc
+
+  // notification statements
+
+}
