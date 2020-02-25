@@ -10,6 +10,34 @@
         "schema": "https://github.com/YangModels/yang/blob/master/standard/ietf/RFC/ietf-yang-types.yang"
       },
       {
+        "name": "ietf-interfaces",
+        "revision": "2014-05-08",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
+        "conformance-type": "import",
+        "schema": ""
+      },
+      {
+        "name": "ietf-routing",
+        "revision": "2018-01-07",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-routing",
+        "conformance-type": "import",
+        "schema": ""
+      },
+      {
+        "name": "ietf-inet-types",
+        "revision": "2013-07-15",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types",
+        "conformance-type": "import",
+        "schema": ""
+      },
+      {
+        "name": "ietf-ip",
+        "revision": "2014-06-16",
+        "namespace": "urn:ietf:params:xml:ns:yang:ietf-ip",
+        "conformance-type": "import",
+        "schema": ""
+      },
+      {
         "name": "uis-rpl",
         "revision": "2020-02-06",
         "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",

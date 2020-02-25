@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
-    name = "enpalme",
-    packages = ['enpalme'],
+    name = "Empalme",
+    packages = ['Empalme'],
     version = "0.1",
     use_scm_version = False,
     url = "https://uis.edu.co",
