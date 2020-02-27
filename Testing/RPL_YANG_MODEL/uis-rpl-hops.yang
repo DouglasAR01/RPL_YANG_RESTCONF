@@ -1,0 +1,48 @@
+module uis-rpl-hops {
+
+  yang-version "1.1";
+
+  namespace "urn:ietf:params:xml:ns:yang:uis-rpl-hops";
+
+  prefix "hc";
+
+  import uis-rpl {
+    prefix "rpl";
+  }
+
+  import ietf-routing {
+    prefix "rt";
+  }
+
+  organization "Universidad Industrial de Santander";
+
+  contact
+    "Douglas Andrés Ramírez
+    ra.douglas@hotmail.com";
+
+  description
+    "This module is an Hop count yang model for uis-rpl
+    objective functions instances."; //Cambiar
+
+  revision 2020-02-27 {
+    description
+      "Initial revision";
+  }
+
+  identity of-hops {
+    base rpl:objective-function;
+  }
+
+  augment "/rt:routing/rt:control-plane-protocols/"
+    + "rt:control-plane-protocol" +
+    "/rpl:rpl/rpl:objective-functions/rpl:objective-function" {
+    when "derived-from(rpl:type, hc:of-hops)";
+
+    container hops-count {
+      leaf contenido {
+        // Completar para el modelo de conteo de saltos.
+        type empty;
+      }
+    }
+  }
+}
