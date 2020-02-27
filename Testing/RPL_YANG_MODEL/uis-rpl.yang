@@ -52,9 +52,22 @@ module uis-rpl {
     description "Identity for the RPL routing protocol.";
   }
 
+  identity objective-function {
+    description
+      "Base identity for objective functions.";
+  }
+
+
   // typedef statements
   // #Aquí van todos los tipos de datos adicionales que necesite
 
+  typedef of-ref {
+    type leafref {
+      path "/rt:routing/rt:control-plane-protocols/"
+        + "rt:control-plane-protocol" +
+        "/rpl:rpl/rpl:objective-functions/rpl:objective-function/rpl:name";
+    }
+  }
 
 
   // grouping statements
@@ -162,7 +175,35 @@ module uis-rpl {
               }
             }
 
+            container objective-functions {
+              // La idea es que sea posible agregar funciones objetivo
+              description
+               "Support for objective functions";
 
+              list objective-function {
+                key "type name";
+                description
+                  "Each entry contains an objective function instance.";
+
+                leaf type {
+                  type identityref {
+                    base objective-function;
+                  }
+                }
+
+                leaf name {
+                  type string;
+                  description
+                    "An arbitrary name of the objective function instance.";
+                }
+
+                leaf description {
+                  type string;
+                  description
+                    "Textual description of the objective function instance.";
+                }
+              }
+            } //Fin contenedor de funciones objetivo
 
 
             /**
