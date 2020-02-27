@@ -1,0 +1,26 @@
+module bot {
+  yang-version "1.1";
+  namespace "test:uis:bot";
+  prefix "b";
+
+  import mid {
+    prefix "mid";
+  }
+
+  import top {
+    prefix "t";
+  }
+  identity rpl-hops {
+    base mid:objective-function;
+  }
+
+  augment "/t:prueba/mid:body/mid:objective-functions/mid:objective-function" {
+    when "derived-from(mid:type, b:rpl-hops)";
+    container hops-count {
+      leaf contenido {
+        // Completar para el modelo de conteo de saltos.
+        type empty;
+      }
+    }
+  }
+}

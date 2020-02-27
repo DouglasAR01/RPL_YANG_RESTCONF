@@ -1,5 +1,6 @@
 module mid {
-
+  yang-version "1.1";
+  namespace "test:uis:mid";
   prefix "m";
 
   import top {
@@ -13,10 +14,10 @@ module mid {
 
   typedef of-ref {
     type leafref {
-      path "/t:test-body/m:body/m:objective-functions/m:objective-function/m:name";
+      path "/t:prueba/m:body/m:objective-functions/m:objective-function/m:name";
     }
   }
-  augment "/t:test-body/" {
+  augment "/t:prueba" {
     container body {
       container objective-functions {
         // La idea es que sea posible agregar funciones objetivo
