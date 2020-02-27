@@ -1,3 +1,5 @@
+### PARA CONVERTIR EN MÓDULOS DE PYTHON ###
+
 export PYBINDPLUGIN=`/usr/bin/env python -c \
         'import pyangbind; import os; print "%s/plugin" % os.path.dirname(pyangbind.__file__)'`
 
@@ -5,4 +7,12 @@ pyang --plugindir $PYBINDPLUGIN -f pybind nombre-modelo.yang > nombre_modelo_res
 
 ================================================
 
+### PARA HACER ÁRBOLES BASADO EN UN MODELO YANG ###
+
 pyang -f tree nombre_modelo.yang
+
+================================================
+
+### PARA VALIDAR UN MODELO YANG ###
+
+pyang --verbose nombre_modelo.yang
