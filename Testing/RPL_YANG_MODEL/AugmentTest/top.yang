@@ -1,0 +1,9 @@
+module top {
+  prefix "t";
+
+  container test-body {
+    leaf test {
+      type string;
+    }
+  }
+}

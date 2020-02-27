@@ -1,0 +1,52 @@
+module mid {
+
+  prefix "m";
+
+  import top {
+    prefix "t";
+  }
+
+  identity objective-function {
+    description
+      "Base identity for objective functions.";
+  }
+
+  typedef of-ref {
+    type leafref {
+      path "/t:test-body/m:body/m:objective-functions/m:objective-function/m:name";
+    }
+  }
+  augment "/t:test-body/" {
+    container body {
+      container objective-functions {
+        // La idea es que sea posible agregar funciones objetivo
+        description
+         "Support for objective functions";
+
+        list objective-function {
+          key "type name";
+          description
+            "Each entry contains an objective function instance.";
+
+          leaf type {
+            type identityref {
+              base objective-function;
+            }
+          }
+
+          leaf name {
+            type string;
+            description
+              "An arbitrary name of the objective function instance.";
+          }
+
+          leaf description {
+            type string;
+            description
+              "Textual description of the objective function instance.";
+          }
+        }
+      } //Fin contenedor de funciones objetivo
+    } // Fin contenedor body
+  } //Fin del augment
+}

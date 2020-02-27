@@ -93,10 +93,10 @@ module uis-rpl {
       leaf k {
         description
           "The redundancy constant, k, is a natural number (an integer
-            greater than zero).";
-        type uint8 {
-          range 1..max;
-        }
+            greater than zero).
+            In RPL, when k has the value of 0, this is to be treated as
+            a redundancy constant of infinity";
+        type uint8;
         mandatory true;
       }
 
