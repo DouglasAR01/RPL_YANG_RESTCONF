@@ -65,6 +65,65 @@ module uis-rpl {
 
   }
 
+  grouping trickle-timer {
+    container trickle {
+      description
+        "Trickle timer variables and parameters.";
+
+      // PARAMETERS
+      leaf i-min {
+        description
+          "The minimum interval size, Imin, is defined in milliseconds (ms).";
+        type uint32 {
+          range 1..max;
+        }
+        mandatory true;
+      }
+
+      leaf i-max {
+        description
+          "The maximum interval size, Imax, is described as a number of
+          doublings of the minimum interval size (the base-2 log(max/min)).";
+        type uint8 {
+          range 1..max;
+        }
+        mandatory true;
+      }
+
+      leaf k {
+        description
+          "The redundancy constant, k, is a natural number (an integer
+            greater than zero).";
+        type uint8 {
+          range 1..max;
+        }
+        mandatory true;
+      }
+
+      //VARIABLES
+      leaf i {
+        description
+          "I, the current interval size.";
+        config false;
+        type uint32;
+      }
+
+      leaf t {
+        description
+          "t, a time within the current interval.";
+        config false;
+        type uint32;
+      }
+
+      leaf c {
+        description
+          "c, a counter.";
+        config false;
+        type yang:counter32;
+      }
+    }
+  }
+
   // data definition statements
 
   // augment statements
