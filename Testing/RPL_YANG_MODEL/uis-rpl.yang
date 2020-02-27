@@ -3,7 +3,7 @@ module uis-rpl {
   yang-version "1.1";
 
   // namespace
-  namespace "urn:ietf:params:xml:ns:yang:uis-rpl"; //Cambiar
+  namespace "urn:ietf:params:xml:ns:yang:uis-rpl";
 
   prefix "rpl";
 
@@ -35,9 +35,13 @@ module uis-rpl {
   description
     "This module is an a first approach to a fully RPL YANG model";
 
+  revision 2020-02-27 {
+    description
+      "Objective functions support.";
+  }
   revision 2019-10-15 {
     description
-      "Initial revision";
+      "Initial revision.";
   }
 
   // feature statements
@@ -48,10 +52,31 @@ module uis-rpl {
     description "Identity for the RPL routing protocol.";
   }
 
+  identity objective-function {
+    description
+      "Base identity for objective functions.";
+  }
   // typedef statements
   // #Aquí van todos los tipos de datos adicionales que necesite
 
+  typedef of-ref {
+    type leafref {
+      path "/rpl:rpl/rpl:objective-functions/rpl:name";
+    }
+  }
+
+
   // grouping statements
+
+  grouping route-attributes {
+    description
+      "Grouping for route attributes.";
+
+    leaf objective-function {
+      type rpl:of-ref;
+
+    }
+  }
 
   // data definition statements
 
@@ -90,36 +115,83 @@ module uis-rpl {
                   "RPL can only be enabled on IPv6 interfaces.";
               }
             }
-            // TEMPORAL: ES PARA ROBAR EL BACKEND EN DESARROLLO
-            leaf cost {
-              type uint8 {
-                range 0..200;
-              }              
+
+
+
+
+            /**
+            *
+            * STATE DATA
+            *
+            **/
+
+            leaf oper-status {
+              type enumeration {
+                enum up {
+                  description
+                    "RPL is operational on this interface.";
+                }
+                enum down {
+                  description
+                    "RPL is not operational on this
+                     interface.";
+                }
+              }
+              config false;
+              description
+                "Operational state.";
             }
+
             container statistics {
               // Estadísticas que almacena cada interfaz que corra RPL
             }
           } //Fin lista interfaces
         } //Fin contenedor interfaces
+
+        container objective-functions {
+          // La idea es que sea posible agregar funciones objetivo
+          description
+           "Support for objective functions";
+
+          list objective-function {
+            key "type name";
+            description
+              "Each entry contains an objective function instance.";
+
+            leaf type {
+              type identityref {
+                base objective-function;
+              }
+            }
+
+            leaf name {
+              type string;
+              description
+                "An arbitrary name of the objective function instance.";
+            }
+
+            leaf description {
+              type string;
+              description
+                "Textual description of the objective function instance.";
+            }
+          }
+        } //Fin contenedor de funciones objetivo
+
+        // Contenedor que contenga el direccionamiento
+        container ipv6 {
+          config false;
+          description
+           "IPv6 address family information";
+
+          //Posibles groupings de tabla de rutas, vecinos y padres elegidos
+        }
       } //Fin contenedor de RPL
     }
 
   // rpc statements
   // #Aquí va todo lo relacionado a restconf
-  rpc temp-get-interface-cost{
-    input {
-      leaf interface {
-        type if:interface-ref;
-        mandatory true;
-      }
-    }
 
-    output {
-      leaf cost {
-        type uint8;
-      }
-    }
-  } //Fin del rpc
 
   // notification statements
 
