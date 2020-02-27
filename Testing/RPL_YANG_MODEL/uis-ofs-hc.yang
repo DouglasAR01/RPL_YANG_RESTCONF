@@ -1,8 +1,8 @@
-module uis-rpl-hops {
+module uis-ofs-hc {
 
   yang-version "1.1";
 
-  namespace "urn:ietf:params:xml:ns:yang:uis-rpl-hops";
+  namespace "urn:ietf:params:xml:ns:yang:uis-ofs-hc";
 
   prefix "hc";
 
