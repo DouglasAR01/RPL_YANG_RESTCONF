@@ -152,14 +152,16 @@ module uis-rpl {
       description "RPL augmentation.";
       container rpl {
         description "RPL data.";
-        // Aquí va todo el contenido del protocolo
 
-        //Contenedor de interfaces
         container interfaces {
-          description "Containing a list of RPL interfaces.";
+          description
+            "Containing a list of RPL interfaces.";
+
           list interface {
             key "interface";
-            description "List of RPL interfaces.";
+            description
+              "List of RPL interfaces.";
+
             leaf interface {
               type if:interface-ref;
               description "Enable RPL on this interface.";
@@ -203,7 +205,7 @@ module uis-rpl {
             }
           } //Fin lista interfaces
         } //Fin contenedor interfaces
-        
+
         container objective-functions {
           // La idea es que sea posible agregar funciones objetivo
           description
