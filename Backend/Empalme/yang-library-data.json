@@ -42,7 +42,14 @@
         "revision": "2020-02-06",
         "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
         "conformance-type": "implement",
-        "schema": "https://www.uis.edu.co"
+        "schema": ""
+      },
+      {
+        "name": "uis-rpl-hops",
+        "revision": "2020-02-27",
+        "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl-hops",
+        "conformance-type": "implement",
+        "schema": ""
       }
     ]
   }
