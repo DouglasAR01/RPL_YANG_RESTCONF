@@ -175,37 +175,6 @@ module uis-rpl {
               }
             }
 
-            container objective-functions {
-              // La idea es que sea posible agregar funciones objetivo
-              description
-               "Support for objective functions";
-
-              list objective-function {
-                key "type name";
-                description
-                  "Each entry contains an objective function instance.";
-
-                leaf type {
-                  type identityref {
-                    base objective-function;
-                  }
-                }
-
-                leaf name {
-                  type string;
-                  description
-                    "An arbitrary name of the objective function instance.";
-                }
-
-                leaf description {
-                  type string;
-                  description
-                    "Textual description of the objective function instance.";
-                }
-              }
-            } //Fin contenedor de funciones objetivo
-
-
             /**
             *
             * STATE DATA
@@ -234,7 +203,36 @@ module uis-rpl {
             }
           } //Fin lista interfaces
         } //Fin contenedor interfaces
+        
+        container objective-functions {
+          // La idea es que sea posible agregar funciones objetivo
+          description
+           "Support for objective functions";
 
+          list objective-function {
+            key "type name";
+            description
+              "Each entry contains an objective function instance.";
+
+            leaf type {
+              type identityref {
+                base objective-function;
+              }
+            }
+
+            leaf name {
+              type string;
+              description
+                "An arbitrary name of the objective function instance.";
+            }
+
+            leaf description {
+              type string;
+              description
+                "Textual description of the objective function instance.";
+            }
+          }
+        } //Fin contenedor de funciones objetivo
 
         // Contenedor de direccionamiento
         container ipv6 {
