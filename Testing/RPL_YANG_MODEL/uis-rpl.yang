@@ -207,7 +207,6 @@ module uis-rpl {
         } //Fin contenedor interfaces
 
         container objective-functions {
-          // La idea es que sea posible agregar funciones objetivo
           description
            "Support for objective functions";
 

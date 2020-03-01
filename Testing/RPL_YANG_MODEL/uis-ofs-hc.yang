@@ -39,10 +39,12 @@ module uis-ofs-hc {
     when "derived-from(rpl:type, hc:of-hops)";
 
     container hops-count {
-      leaf contenido {
-        // Completar para el modelo de conteo de saltos.
-        type empty;
+      config false;
+      leaf hops-count {
+        type uint8 {
+          range 0..16;
+        }
       }
-    }
+    } //Hops-count container end.
   }
 }
