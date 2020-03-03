@@ -12,3 +12,6 @@ class MyConfDataHandler(ConfDataObjectHandler):
 
     def delete(self, ii: InstanceRoute, ch: DataChange):
         pass
+
+def register_conf_handlers(ds: BaseDatastore):
+    ds.handlers.conf.register(MyConfDataHandler(ds, "/prueba-conf"))

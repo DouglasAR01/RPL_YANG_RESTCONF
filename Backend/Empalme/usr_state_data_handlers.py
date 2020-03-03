@@ -9,6 +9,6 @@ class EnpalmeGetCosto(StateDataContainerHandler):
 
 
 def register_state_handlers(ds: BaseDatastore):
-    handlers = [ EnpalmeGetCosto(),]
+    handlers = [ EnpalmeGetCosto(ds, "/prueba"),]
     for handler in handlers:
         ds.handlers.state.register(handler)

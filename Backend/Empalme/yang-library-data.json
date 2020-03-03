@@ -52,7 +52,14 @@
       },
       {
         "name": "uis-rpl",
-        "revision": "2020-02-06",
+        "revision": "2020-02-27",
+        "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
+        "conformance-type": "implement",
+        "schema": ""
+      },
+      {
+        "name": "uis-ofs-hc",
+        "revision": "2020-02-27",
         "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
         "conformance-type": "implement",
         "schema": ""
