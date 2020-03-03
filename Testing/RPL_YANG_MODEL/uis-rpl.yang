@@ -66,6 +66,8 @@ module uis-rpl {
   // #Aquí van todos los tipos de datos adicionales que necesite
 
   typedef of-ref {
+    description
+      "Reference to an objective function instance.";
     type leafref {
       path "/rt:routing/rt:control-plane-protocols/"
         + "rt:control-plane-protocol" +
@@ -76,12 +78,14 @@ module uis-rpl {
 
   // grouping statements
 
-  grouping route-attributes {
+  grouping node-dodag-attributes {
     description
       "Grouping for route attributes.";
 
     leaf rank {
-      type uint16;
+      type uint16 {
+        range 1..max;
+      }
       description
         "The current rank of the node in the DODAG.";
     }
@@ -89,7 +93,8 @@ module uis-rpl {
     leaf cost {
       type uint16;
       description
-        "The cost set up by the implemented metric.";
+        "The cost set up by the implemented metric.
+        It could be distance to sink node, ETX, hops count, etc.";
     }
   }
 
@@ -256,12 +261,12 @@ module uis-rpl {
         container routing-addresing {
           config false;
           description
-           "IPv6 addressing and RPL routing family information";
+           "IPv6 addressing and RPL routing information";
 
           //Posibles groupings de tabla de rutas, vecinos y padres elegidos
           container upward-routing {
             description
-              "Neighbors, parents, and Dodag construction information.";
+              "Neighbors, preferred parents, and dodag construction information.";
 
             container neighbors {
               description
@@ -285,14 +290,14 @@ module uis-rpl {
                     "The time when the most recent RPL update was
                      received from this neighbor.";
                 }
-
-                uses route-attributes;
+                // Se podrían mostrar algunas otras estadísticas.
+                uses node-dodag-attributes;
               }//Neighbor list
             } //Neighbors container
 
             container node-preferred-parents {
               description
-                "SubDodag nodes preferred parents information.";
+                "Sub-dodag nodes preferred parents information.";
 
               list node-preferred-parent {
                 key "ipv6-address";
@@ -302,17 +307,79 @@ module uis-rpl {
                 leaf ipv6-address {
                   type inet:ipv6-address;
                   description
-                    "IP address that a RPL neighbor is using as its
+                    "IP address that the current node is using as its
                      source address.";
                 }
-                // Continuar
-                uses route-attributes;
+
+                leaf parent-ipv6-address {
+                  type inet:ipv6-address;
+                  description
+                    "IP address that the preferred parent of the current node
+                     is using as its source address.";
+                }
+
+                leaf parent-rank {
+                  type uint16;
+                  description
+                    "The node preferred parent rank. It could be 0 if
+                    the current node rank is 1.";
+                }
+
+                leaf parent-cost {
+                  type uint16;
+                  description
+                    "The cost set up by the implemented metric at the preferred
+                    parent node.
+                    It could be distance to sink node, ETX, hops count, etc.";
+                }
+
+                uses node-dodag-attributes;
+              }//Preferred parents list
+            }//Preferred parent container
+
+            container dodag-topology {
+              description
+                "DODAG topology construction and mantaninment information.";
+
+              leaf objective-function {
+                type rpl:of-ref;
+                description
+                  "The OF used in the current RPL instance.
+                  All DODAGs in the same RPL Instance use the same OF.
+                  RFC6550 section 3.1.2.";
               }
-            }
+
+              leaf num-of-nodes {
+                type uint16;
+                description
+                  "Number of nodes in the DODAG, including sink node.";
+              }
+
+              container dodag-version {
+                description
+                  "DODAG uniqueness identifier.";
+
+                leaf rpl-instace-id {
+                  type uint8;
+                }
+
+                leaf dodag-id {
+                  type inet:ipv6-address;
+                }
+
+                leaf dodag-version-number {
+                  type uint8;
+                  description
+                  "A DODAG is sometimes reconstructed from the DODAG root,
+                   by incrementing the DODAGVersionNumber.";
+                }
+              }//Dodag-version container
+            }//Dodag-topology container
+
           }//Upward routing container
         }//routing-addresing container
       }//Rpl container
-    }
+    }//Augmentation container
 
   // rpc statements
   // #Aquí va todo lo relacionado a restconf
