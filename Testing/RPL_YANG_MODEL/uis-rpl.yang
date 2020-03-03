@@ -24,6 +24,10 @@ module uis-rpl {
     prefix "ip";
   }
 
+  import ietf-inet-types {
+    prefix "inet";
+  }
+
 
   // meta
   organization "Universidad Industrial de Santander";
@@ -76,6 +80,17 @@ module uis-rpl {
     description
       "Grouping for route attributes.";
 
+    leaf rank {
+      type uint16;
+      description
+        "The current rank of the node in the DODAG.";
+    }
+
+    leaf cost {
+      type uint16;
+      description
+        "The cost set up by the implemented metric.";
+    }
   }
 
   grouping trickle-timer {
@@ -152,6 +167,8 @@ module uis-rpl {
       description "RPL augmentation.";
       container rpl {
         description "RPL data.";
+
+        uses trickle-timer;
 
         container interfaces {
           description
@@ -236,14 +253,65 @@ module uis-rpl {
         } //Fin contenedor de funciones objetivo
 
         // Contenedor de direccionamiento
-        container ipv6 {
+        container routing-addresing {
           config false;
           description
-           "IPv6 address family information";
+           "IPv6 addressing and RPL routing family information";
 
           //Posibles groupings de tabla de rutas, vecinos y padres elegidos
-        }
-      } //Fin contenedor de RPL
+          container upward-routing {
+            description
+              "Neighbors, parents, and Dodag construction information.";
+
+            container neighbors {
+              description
+                "IPv6 neighbor information.";
+
+              list neighbor {
+                key "ipv6-address";
+                description
+                  "A RPL neighbor.";
+
+                leaf ipv6-address {
+                  type inet:ipv6-address;
+                  description
+                    "IP address that a RPL neighbor is using as its
+                     source address.";
+                }
+
+                leaf last-update {
+                  type yang:date-and-time;
+                  description
+                    "The time when the most recent RPL update was
+                     received from this neighbor.";
+                }
+
+                uses route-attributes;
+              }//Neighbor list
+            } //Neighbors container
+
+            container node-preferred-parents {
+              description
+                "SubDodag nodes preferred parents information.";
+
+              list node-preferred-parent {
+                key "ipv6-address";
+                description
+                  "A node preferred parent information.";
+
+                leaf ipv6-address {
+                  type inet:ipv6-address;
+                  description
+                    "IP address that a RPL neighbor is using as its
+                     source address.";
+                }
+                // Continuar
+                uses route-attributes;
+              }
+            }
+          }//Upward routing container
+        }//routing-addresing container
+      }//Rpl container
     }
 
   // rpc statements
