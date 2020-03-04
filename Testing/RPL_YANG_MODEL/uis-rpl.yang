@@ -359,7 +359,7 @@ module uis-rpl {
                 description
                   "DODAG uniqueness identifier.";
 
-                leaf rpl-instace-id {
+                leaf rpl-instance-id {
                   type uint8;
                 }
 

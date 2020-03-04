@@ -35,7 +35,7 @@ module uis-ofs-of0 {
   augment "/rt:routing/rt:control-plane-protocols/"
     + "rt:control-plane-protocol" +
     "/rpl:rpl/rpl:objective-functions/rpl:objective-function" {
-    when "derived-from(rpl:type, hc:of-of0)";
+    when "derived-from(rpl:type, of0:of-of0)";
 
     container of0 {
       container variables {
