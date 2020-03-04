@@ -1,0 +1,84 @@
+module uis-ofs-of0 {
+
+  yang-version "1.1";
+
+  namespace "urn:ietf:params:xml:ns:yang:uis-ofs-of0";
+
+  prefix "of0";
+
+  import uis-rpl {
+    prefix "rpl";
+  }
+
+  import ietf-routing {
+    prefix "rt";
+  }
+
+  organization "Universidad Industrial de Santander";
+
+  contact
+    "Douglas Andrés Ramírez
+    ra.douglas@hotmail.com";
+
+  description
+    "Objective function Zero for RPL."; //Cambiar
+
+  revision 2020-03-04 {
+    description
+      "Initial revision";
+  }
+
+  identity of-of0 {
+    base rpl:objective-function;
+  }
+
+  augment "/rt:routing/rt:control-plane-protocols/"
+    + "rt:control-plane-protocol" +
+    "/rpl:rpl/rpl:objective-functions/rpl:objective-function" {
+    when "derived-from(rpl:type, hc:of-of0)";
+
+    container of0 {
+      container variables {
+        config false;
+
+        leaf step-of-rank {
+          type uint16;
+          description
+            "An intermediate computation based on the link properties
+             with a certain neighbor.";
+        }
+
+        leaf rank-increase {
+          type uint16;
+          description
+            "Delta between the Rank of the preferred parent and self.";
+        }
+      }//Variables container
+
+      container parameters {
+        config true;
+
+        leaf stretch-of-rank {
+          type uint16;
+          description
+            "The maximum augmentation to the step_of_rank of a preferred parent
+             to allow the selection of an additional feasible successor.
+             If none is configured to the device, then the step_of_rank is not
+             stretched.";
+
+          default 0;
+        }
+
+        leaf rank-factor {
+          type uint16;
+          description
+            "A configurable factor that is used to multiply the effect of the
+             link properties in the rank_increase computation.
+             If none is configured, then a rank_factor of 1 is used.";
+
+          default 1;
+        }
+      }//Parameters container
+    } //of0 container.
+  }
+}
