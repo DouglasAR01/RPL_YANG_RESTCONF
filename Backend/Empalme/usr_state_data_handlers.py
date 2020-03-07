@@ -9,6 +9,8 @@ class EnpalmeGetCosto(StateDataContainerHandler):
 
 
 def register_state_handlers(ds: BaseDatastore):
-    handlers = [ EnpalmeGetCosto(ds, "/prueba"),]
+    ietf_route = '/ietf-routing:routing/control-plane-protocols/' + \
+                 'control-plane-protocol'
+    handlers = [ EnpalmeGetCosto(ds, ietf_route + '/rpl'),]
     for handler in handlers:
         ds.handlers.state.register(handler)

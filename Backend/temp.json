@@ -1,0 +1,19 @@
+{
+  "ietf-netconf-acm:nacm": {
+    "enable-nacm": false
+  },
+  "ietf-routing:routing": {
+    "control-plane-protocols": {
+      "control-plane-protocol": [
+        {
+          "type": "rpl",
+          "name": "RPL",
+          "uis-rpl:rpl": {}
+        }
+      ]
+    },
+    "ribs": {
+      "rib": []
+    }
+  }
+}

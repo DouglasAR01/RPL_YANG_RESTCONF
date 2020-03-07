@@ -258,7 +258,7 @@ module uis-rpl {
         } //Fin contenedor de funciones objetivo
 
         // Contenedor de direccionamiento
-        container routing-addresing {
+        container routing-modes {
           config false;
           description
            "IPv6 addressing and RPL routing information";

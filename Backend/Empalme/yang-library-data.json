@@ -27,6 +27,9 @@
         "revision": "2014-05-08",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
         "conformance-type": "implement",
+        "feature": [
+          "router-id"
+        ],
         "schema": ""
       },
       {
@@ -60,7 +63,7 @@
       {
         "name": "uis-ofs-hc",
         "revision": "2020-02-27",
-        "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
+        "namespace": "urn:ietf:params:xml:ns:yang:uis-ofs-hc",
         "conformance-type": "implement",
         "schema": ""
       }
