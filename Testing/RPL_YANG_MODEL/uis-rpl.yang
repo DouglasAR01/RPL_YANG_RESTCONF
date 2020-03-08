@@ -34,11 +34,11 @@ module uis-rpl {
 
   contact
     "Douglas Andrés Ramírez
-    ra.douglas@hotmail.com";
+     ra.douglas@hotmail.com";
 
   description
     "This module is an a first approach to an RPL
-     (non-storing mode) YANG model.";
+     (non-storing mode) YANG model for a root node.";
 
   revision 2020-03-07 {
     description
@@ -47,7 +47,7 @@ module uis-rpl {
 
   revision 2020-02-27 {
     description
-      "Support for multiple Objective Functions.";
+      "Support for multiple objective functions.";
   }
   revision 2019-10-15 {
     description
@@ -55,7 +55,11 @@ module uis-rpl {
   }
 
   // feature statements
-
+  feature dag-version-increment-timer {
+    description
+      "This feature indicates that the RPL implementation on the system
+       supports DAG Version Increment Timers.";
+  }
   // identity statements
   identity rpl {
     base rt:routing-protocol;
@@ -69,7 +73,6 @@ module uis-rpl {
 
 
   // typedef statements
-  // #Aquí van todos los tipos de datos adicionales que necesite
 
   typedef of-ref {
     description
@@ -100,12 +103,12 @@ module uis-rpl {
       type uint16;
       description
         "The cost set up by the implemented metric.
-        It could be distance to sink node, ETX, hops count, etc.";
+         It could be distance to sink node, ETX, hops count, etc.";
     }
   }
 
   grouping trickle-timer {
-    container trickle {
+    container trickle-timer {
       description
         "Trickle timer variables and parameters.";
 
@@ -116,7 +119,7 @@ module uis-rpl {
         type uint32 {
           range 1..max;
         }
-        mandatory true;
+        units 'milliseconds';
       }
 
       leaf i-max {
@@ -124,9 +127,8 @@ module uis-rpl {
           "The maximum interval size, Imax, is described as a number of
           doublings of the minimum interval size (the base-2 log(max/min)).";
         type uint8 {
-          range 1..max;
+          range 1..32;
         }
-        mandatory true;
       }
 
       leaf k {
@@ -134,32 +136,97 @@ module uis-rpl {
           "The redundancy constant, k, is a natural number (an integer
             greater than zero).
             In RPL, when k has the value of 0, this is to be treated as
-            a redundancy constant of infinity";
+            a redundancy constant of infinity.";
         type uint8;
-        mandatory true;
       }
 
       //VARIABLES
       leaf i {
         description
           "I, the current interval size.";
+        type uint64;
         config false;
-        type uint32;
       }
 
       leaf t {
         description
           "t, a time within the current interval.";
+        type uint64;
         config false;
-        type uint32;
       }
 
       leaf c {
         description
           "c, a counter.";
-        config false;
         type yang:counter32;
+        config false;
       }
+    }
+  }
+
+  grouping global-rpl-attributes {
+    description
+      "Global configuration and state attributes.";
+
+    leaf dio-interval-min {
+      type uint8 {
+        range 0..32;
+      }
+      default 3;
+      description
+        "Number of doublings of the minimum DIO interval used to configure
+         Imin for the DIO Trickle timer.
+         By default has a value of 3. This configuration results in Imin of 8 ms.
+         (Imin = 2^3 ms)";
+    }
+
+    leaf dio-interval-doublings {
+      type uint8 {
+        range 1..32;
+      }
+      default 20;
+      description
+        "Number of doublings of the maximum DIO interval used to configure
+        Imax for the DIO Trickle timer.
+        By default has a value of 20. This configuration results in Imax of 2.3 hours.
+        (Imax = Imin * 2^20, Imin = 8ms)";
+    }
+
+    leaf dio-redundancy-constant {
+      type uint8 {
+        range 1..max;
+      }
+      default 10;
+      description
+        "Value used to configure k for the DIO Trickle timer.";
+    }
+
+    container dio-timer {
+      description
+       "DIO-timer information.";
+
+      uses trickle-timer;
+
+      leaf dio-timer {
+        type uint64;
+        description
+          "A Trickle timer with variable interval in
+           [0,2^DIOIntervalMin*2^DIOIntervalDoublings].";
+        config false;
+      }
+    }//dio-timer container
+
+    leaf dag-version-increment-timer {
+      if-feature dag-version-increment-timer;
+      config false;
+      description
+        "Up to one instance per DODAG of which the node is acting as DODAG root.
+         May not be supported in all implementations.
+         Expiry triggers increment of DODAGVersionNumber, causing a new series
+         of updated DIO message to be sent.  Interval should be chosen
+         appropriate to propagation time of DODAG and as appropriate to
+         application requirements (e.g., response time versus overhead).";
+      type uint32;
     }
   }
 
@@ -179,7 +246,7 @@ module uis-rpl {
       container rpl {
         description "RPL data.";
 
-        uses trickle-timer;
+        uses global-rpl-attributes;
 
         container interfaces {
           description
@@ -205,11 +272,13 @@ module uis-rpl {
               }
             }
 
-            /**
-            *
-            * STATE DATA
-            *
-            **/
+            leaf channel-id {
+              type uint8;
+              description
+                "Logical interface or channel ID.";
+            }
+
+            //Interface state data
 
             leaf oper-status {
               type enumeration {
@@ -229,10 +298,11 @@ module uis-rpl {
             }
 
             container statistics {
-              // Estadísticas que almacena cada interfaz que corra RPL
+              config false;
+
             }
-          } //Fin lista interfaces
-        } //Fin contenedor interfaces
+          } //Interfaces list
+        } //Interfaces container
 
         container objective-functions {
           description
@@ -303,12 +373,12 @@ module uis-rpl {
 
             container node-preferred-parents {
               description
-                "Sub-dodag nodes preferred parents information.";
+                "Sub-dodag nodes preferred-parents information.";
 
               list node-preferred-parent {
                 key "ipv6-address";
                 description
-                  "A node preferred parent information.";
+                  "A node preferred-parent information.";
 
                 leaf ipv6-address {
                   type inet:ipv6-address;
@@ -320,23 +390,23 @@ module uis-rpl {
                 leaf parent-ipv6-address {
                   type inet:ipv6-address;
                   description
-                    "IP address that the preferred parent of the current node
+                    "IP address that the preferred-parent of the current node
                      is using as its source address.";
                 }
 
                 leaf parent-rank {
                   type uint16;
                   description
-                    "The node preferred parent rank. It could be 0 if
+                    "The node preferred-parent rank. It could be 0 if
                     the current node rank is 1.";
                 }
 
                 leaf parent-cost {
                   type uint16;
                   description
-                    "The cost set up by the implemented metric at the preferred
-                    parent node.
-                    It could be distance to sink node, ETX, hops count, etc.";
+                    "The cost set up by the implemented metric at the
+                     preferred-parent node.
+                     It could be distance to sink node, ETX, hops count, etc.";
                 }
 
                 uses node-dodag-attributes;
@@ -351,8 +421,8 @@ module uis-rpl {
                 type rpl:of-ref;
                 description
                   "The OF used in the current RPL instance.
-                  All DODAGs in the same RPL Instance use the same OF.
-                  RFC6550 section 3.1.2.";
+                   All DODAGs in the same RPL Instance use the same OF.
+                   RFC6550 section 3.1.2.";
               }
 
               leaf num-of-nodes {
@@ -385,27 +455,36 @@ module uis-rpl {
           }//Upward routing container
 
           container downward-routing {
+            config false;
             list routing-table {
               key "dest-ip";
               description
-                "Key-value like list of destination IP - Next hop IP.";
+                "This list represents a routing table for RPL in non-storing MOP";
 
               leaf dest-ip {
                 type inet:ipv6-address;
+                description
+                  "Destination IPv6 address.";
               }
 
               leaf next-hop-ip {
                 type inet:ipv6-address;
+                description
+                  "Next hop IPv6 address.";
               }
             }//routing-table list
 
+            leaf received-daos {
+              type yang:counter64;
+              description
+                "Count of received DAOs.";
+            }
           }//downward-routing container
         }//routing-modes container
       }//Rpl container
     }//Augmentation container
 
   // rpc statements
-  // #Aquí va todo lo relacionado a restconf
 
 
   // notification statements
