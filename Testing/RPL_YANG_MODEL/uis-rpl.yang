@@ -37,11 +37,17 @@ module uis-rpl {
     ra.douglas@hotmail.com";
 
   description
-    "This module is an a first approach to a fully RPL YANG model";
+    "This module is an a first approach to an RPL
+     (non-storing mode) YANG model.";
+
+  revision 2020-03-07 {
+    description
+      "Upward routing and downward routing support. (non-storing mode)";
+  }
 
   revision 2020-02-27 {
     description
-      "Objective functions support.";
+      "Support for multiple Objective Functions.";
   }
   revision 2019-10-15 {
     description
@@ -163,7 +169,7 @@ module uis-rpl {
   augment "/rt:routing/rt:control-plane-protocols/"
     + "rt:control-plane-protocol"{
 
-      when "derived-from(rt:type, rpl:rpl)"{
+      when "derived-from(rt:type, 'rpl:rpl')"{
         description
           "This augment is only valid for a routing protocol instance
           of RPL.";
@@ -377,7 +383,24 @@ module uis-rpl {
             }//Dodag-topology container
 
           }//Upward routing container
-        }//routing-addresing container
+
+          container downward-routing {
+            list routing-table {
+              key "dest-ip";
+              description
+                "Key-value like list of destination IP - Next hop IP.";
+
+              leaf dest-ip {
+                type inet:ipv6-address;
+              }
+
+              leaf next-hop-ip {
+                type inet:ipv6-address;
+              }
+            }//routing-table list
+
+          }//downward-routing container
+        }//routing-modes container
       }//Rpl container
     }//Augmentation container
 
