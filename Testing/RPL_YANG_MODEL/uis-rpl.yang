@@ -485,7 +485,28 @@ module uis-rpl {
     }//Augmentation container
 
   // rpc statements
+  rpc get-route-stack {
+    description
+      "Returns (if exists) the full routing path to a node member of the DODAG.";
 
+    input {
+      leaf target-ipv6-address {
+        type inet:ipv6-address;
+        description
+          "The Ipv6 address of the target node.";
+      }
+    }
+
+    output {
+      leaf-list route-stack {
+        type inet:ipv6-address;
+        description
+         "A list of the IPv6 addresses which routes from the sink node to the
+         target node. In order.";
+        ordered-by "system";
+      }
+    }
+  }
 
   // notification statements
 
