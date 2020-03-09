@@ -1,19 +1,117 @@
 {
-  "ietf-netconf-acm:nacm": {
-    "enable-nacm": false
-  },
-  "ietf-routing:routing": {
-    "control-plane-protocols": {
-      "control-plane-protocol": [
-        {
-          "type": "rpl",
-          "name": "RPL",
-          "uis-rpl:rpl": {}
-        }
-      ]
-    },
-    "ribs": {
-      "rib": []
-    }
-  }
+	"ietf-netconf-acm:nacm": {
+		"enable-nacm": false
+	},
+	"ietf-routing:routing": {
+		"router-id": "1.1.1.1",
+		"interfaces": {
+			"interface": [
+				"wireless1"
+			]
+		},
+		"control-plane-protocols": {
+			"control-plane-protocol": [{
+				"rpl RPL": {
+					"type": "rpl",
+					"name": "RPL",
+					"description": "",
+					"rpl": {
+						"trickle": {
+							"i-min": 60000,
+							"i-max": 4,
+							"k": 2,
+							"i": 0,
+							"t": 0,
+							"c": 0
+						},
+						"interfaces": {
+							"interface": {
+								"wireless1": {
+									"interface": "wireless1",
+									"oper-status": ""
+								}
+							}
+						},
+						"objective-functions": {
+							"objective-function": {
+								"of-of0 of0": {
+									"type": "of-of0",
+									"name": "of0",
+									"description": "",
+									"of0": {
+										"variables": {
+											"step-of-rank": 0,
+											"rank-increase": 0
+										},
+										"parameters": {
+											"stretch-of-rank": 0,
+											"rank-factor": 1
+										}
+									}
+								}
+							}
+						},
+						"routing-addresing": {
+							"upward-routing": {
+								"neighbors": {
+									"neighbor": {
+										"2002:0DB8:AC10:FE01::": {
+											"ipv6-address": "2002:0DB8:AC10:FE01::",
+											"last-update": "2020-03-04T14:20:50.52Z",
+											"rank": 1,
+											"cost": 1
+										}
+									}
+								},
+								"node-preferred-parents": {
+									"node-preferred-parent": {
+										"2002:0DB8:AC10:FE01::": {
+											"ipv6-address": "2002:0DB8:AC10:FE01::",
+											"parent-ipv6-address": "2001:0DB8:AC10:FE01::",
+											"parent-rank": 0,
+											"parent-cost": 1,
+											"rank": 1,
+											"cost": 1
+										},
+										"2003:0DB8:AC10:FE01::": {
+											"ipv6-address": "2003:0DB8:AC10:FE01::",
+											"parent-ipv6-address": "2002:0DB8:AC10:FE01::",
+											"parent-rank": 1,
+											"parent-cost": 1,
+											"rank": 2,
+											"cost": 2
+										}
+									}
+								},
+								"dodag-topology": {
+									"objective-function": "of0",
+									"num-of-nodes": 3,
+									"dodag-version": {
+										"rpl-instance-id": 1,
+										"dodag-id": "fd12:3456:789a:1::1",
+										"dodag-version-number": 2
+									}
+								}
+							}
+						}
+					}
+				}
+			}]
+		},
+		"ribs": {
+			"rib": [{}]
+		}
+	},
+	"ietf-routing:routing-state": {
+		"router-id": "",
+		"interfaces": {
+			"interface": []
+		},
+		"control-plane-protocols": {
+			"control-plane-protocol": [{}]
+		},
+		"ribs": {
+			"rib": [{}]
+		}
+	}
 }
