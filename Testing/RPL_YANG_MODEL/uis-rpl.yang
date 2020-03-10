@@ -72,7 +72,7 @@ module uis-rpl {
       "This feature indicates that the system supports collecting
        per-interface statistic data related to RPL.";
   }
-  
+
   // identity statements
   identity rpl {
     base rt:routing-protocol;
@@ -323,7 +323,7 @@ module uis-rpl {
               }
               leaf packets-rcvd {
                 type yang:counter64;
-                description;
+                description
                   "Total number of RPL packets received.";
               }
               leaf sent-packets {
@@ -521,22 +521,22 @@ module uis-rpl {
           leaf received-dios {
             type yang:counter64;
             description
-              "Count of received DAOs.";
+              "Count of received DIOs.";
           }
           leaf received-dis {
             type yang:counter64;
             description
-              "Count of received DAOs.";
+              "Count of received DISes.";
           }
           leaf sent-daos {
             type yang:counter64;
             description
-              "Count of received DAOs.";
+              "Count of sent DAOs.";
           }
           leaf sent-dios {
             type yang:counter64;
             description
-              "Count of received DAOs.";
+              "Count of sent DIOs.";
           }
 
         }
