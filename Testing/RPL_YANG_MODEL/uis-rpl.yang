@@ -40,6 +40,11 @@ module uis-rpl {
     "This module is an a first approach to an RPL
      (non-storing mode) YANG model for a root node.";
 
+  revision 2020-03-10 {
+    description
+      "Global and interface statistics support.";
+  }
+
   revision 2020-03-07 {
     description
       "Upward routing and downward routing support. (non-storing mode)";
@@ -113,7 +118,10 @@ module uis-rpl {
     }
 
     leaf cost {
-      type uint16;
+      type decimal64 {
+        fraction-digits 5;
+        range 0..max;
+      }
       description
         "The cost set up by the implemented metric.
          It could be distance to sink node, ETX, hops count, etc.";

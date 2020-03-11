@@ -40,6 +40,11 @@ module uis-rpl {
     "This module is an a first approach to an RPL
      (non-storing mode) YANG model for a root node.";
 
+  revision 2020-03-10 {
+    description
+      "Global and interface statistics support.";
+  }
+
   revision 2020-03-07 {
     description
       "Upward routing and downward routing support. (non-storing mode)";
@@ -60,6 +65,19 @@ module uis-rpl {
       "This feature indicates that the RPL implementation on the system
        supports DAG Version Increment Timers.";
   }
+
+  feature global-statistics {
+    description
+      "This feature indicates that the system supports collecting
+       global statistic data related to RPL.";
+  }
+
+  feature interface-statistics {
+    description
+      "This feature indicates that the system supports collecting
+       per-interface statistic data related to RPL.";
+  }
+
   // identity statements
   identity rpl {
     base rt:routing-protocol;
@@ -100,7 +118,10 @@ module uis-rpl {
     }
 
     leaf cost {
-      type uint16;
+      type decimal64 {
+        fraction-digits 5;
+        range 0..max;
+      }
       description
         "The cost set up by the implemented metric.
          It could be distance to sink node, ETX, hops count, etc.";
@@ -247,6 +268,10 @@ module uis-rpl {
         description "RPL data.";
 
         uses global-rpl-attributes;
+        container prueba {
+          config false;
+
+        }
 
         container interfaces {
           description
@@ -298,8 +323,26 @@ module uis-rpl {
             }
 
             container statistics {
+              if-feature interface-statistics;
               config false;
+              description
+                "Interface statistic counters.";
 
+              leaf bad-packets-rcvd {
+                type yang:counter64;
+                description
+                  "The number of invalid RPL packets received.";
+              }
+              leaf packets-rcvd {
+                type yang:counter64;
+                description
+                  "Total number of RPL packets received.";
+              }
+              leaf sent-packets {
+                type yang:counter64;
+                description
+                  "Total number of RPL packets sent.";
+              }
             }
           } //Interfaces list
         } //Interfaces container
@@ -473,14 +516,43 @@ module uis-rpl {
                   "Next hop IPv6 address.";
               }
             }//routing-table list
-
-            leaf received-daos {
-              type yang:counter64;
-              description
-                "Count of received DAOs.";
-            }
           }//downward-routing container
         }//routing-modes container
+
+        container statistics {
+          if-feature global-statistics;
+          config false;
+          description
+            "Global statistic counters.";
+
+          leaf received-daos {
+            type yang:counter64;
+            description
+              "Count of received DAOs.";
+          }
+          leaf received-dios {
+            type yang:counter64;
+            description
+              "Count of received DIOs.";
+          }
+          leaf received-dis {
+            type yang:counter64;
+            description
+              "Count of received DISes.";
+          }
+          leaf sent-daos {
+            type yang:counter64;
+            description
+              "Count of sent DAOs.";
+          }
+          leaf sent-dios {
+            type yang:counter64;
+            description
+              "Count of sent DIOs.";
+          }
+
+        }
+
       }//Rpl container
     }//Augmentation container
 

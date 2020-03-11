@@ -62,12 +62,14 @@
       },
       {
         "name": "uis-rpl",
-        "revision": "2020-03-07",
+        "revision": "2020-03-10",
         "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
         "conformance-type": "implement",
         "schema": "",
         "feature": [
-          "dag-version-increment-timer"
+          "dag-version-increment-timer",
+          "global-statistics",
+          "interfaces-statistics"
         ]
       },
       {

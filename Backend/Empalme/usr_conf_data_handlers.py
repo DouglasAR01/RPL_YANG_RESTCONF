@@ -16,4 +16,4 @@ class MyConfDataHandler(ConfDataObjectHandler):
 def register_conf_handlers(ds: BaseDatastore):
     ietf_route = '/ietf-routing:routing/control-plane-protocols/' + \
                  'control-plane-protocol'
-    ds.handlers.conf.register(MyConfDataHandler(ds, ietf_route + '/rpl'))
+    #ds.handlers.conf.register(MyConfDataHandler(ds, ietf_route + '/rpl'))
