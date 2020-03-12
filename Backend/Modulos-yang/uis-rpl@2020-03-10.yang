@@ -268,10 +268,6 @@ module uis-rpl {
         description "RPL data.";
 
         uses global-rpl-attributes;
-        container prueba {
-          config false;
-
-        }
 
         container interfaces {
           description

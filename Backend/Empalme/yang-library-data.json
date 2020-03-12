@@ -6,15 +6,13 @@
         "name": "ietf-yang-types",
         "revision": "2013-07-15",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-yang-types",
-        "conformance-type": "import",
-        "schema": "https://github.com/YangModels/yang/blob/master/standard/ietf/RFC/ietf-yang-types.yang"
+        "conformance-type": "import"
       },
       {
         "name": "ietf-netconf-acm",
         "revision": "2012-02-22",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-netconf-acm",
-        "conformance-type": "implement",
-        "schema": "https://raw.githubusercontent.com/YangModels/yang/master/standard/ietf/RFC/ietf-netconf-acm.yang"
+        "conformance-type": "implement"
       },
       {
         "name": "ietf-yang-library",
@@ -26,8 +24,7 @@
         "name": "ietf-interfaces",
         "revision": "2014-05-08",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-interfaces",
-        "conformance-type": "implement",
-        "schema": ""
+        "conformance-type": "implement"
       },
       {
         "name": "ietf-routing",
@@ -36,36 +33,31 @@
         "conformance-type": "implement",
         "feature": [
           "router-id"
-        ],
-        "schema": ""
+        ]
       },
       {
         "name": "ietf-inet-types",
         "revision": "2013-07-15",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-inet-types",
-        "conformance-type": "import",
-        "schema": ""
+        "conformance-type": "import"
       },
       {
         "name": "ietf-ip",
         "revision": "2014-06-16",
         "namespace": "urn:ietf:params:xml:ns:yang:ietf-ip",
-        "conformance-type": "implement",
-        "schema": ""
+        "conformance-type": "implement"
       },
       {
         "name": "iana-if-type",
         "revision": "2017-01-19",
         "namespace": "urn:ietf:params:xml:ns:yang:iana-if-type",
-        "conformance-type": "implement",
-        "schema": ""
+        "conformance-type": "implement"
       },
       {
         "name": "uis-rpl",
         "revision": "2020-03-10",
         "namespace": "urn:ietf:params:xml:ns:yang:uis-rpl",
         "conformance-type": "implement",
-        "schema": "",
         "feature": [
           "dag-version-increment-timer",
           "global-statistics",
@@ -76,8 +68,7 @@
         "name": "uis-ofs-of0",
         "revision": "2020-03-04",
         "namespace": "urn:ietf:params:xml:ns:yang:uis-ofs-of0",
-        "conformance-type": "implement",
-        "schema": ""
+        "conformance-type": "implement"
       }
     ]
   }

@@ -8,16 +8,28 @@ from jetconf.handler_base import StateDataListHandler
 from jetconf.data import BaseDatastore
 from . import sim_inst_rpl
 
+RPL = sim_inst_rpl.RPL
 RUTA_RPL = "/ietf-routing:routing/control-plane-protocols/" + \
-             "control-plane-protocol=uis-rpl:rpl,RPL/uis-rpl:rpl"
+             "control-plane-protocol/uis-rpl:rpl"
 
 class RPLNodesCount(StateDataContainerHandler):
     def generate_node(self, node_ii: InstanceRoute, username: str, staging: bool) -> JsonNodeT:
-        ruta = RUTA_RPL + "/routing-modes/upward-routing/" + \
-        "node-preferred-parents/node-preferred-parent"
-        lista_nodos_ii = self.ds.parse_ii(ruta,PathFormat.URL)
-        nodos = self.ds.get_data_root().goto(lista_nodos_ii).value
-        return len(nodos)
+        return len(RPL['TOPOLOGIA'])+1
+
+class RPLPreferredParents(StateDataListHandler):
+    def generate_list(self, node_ii: InstanceRoute, username: str, staging: bool) -> JsonNodeT:
+        padres = []
+        for ip in RPL['TOPOLOGIA']:
+            entrada = {
+                "ipv6-address" : ip,
+                "parent-ipv6-address" : RPL['TOPOLOGIA'][ip]['PADRE'],
+                "parent-rank" : RPL['TOPOLOGIA'][ip]['RANGO'],
+                "parent-cost" : RPL['TOPOLOGIA'][ip]['PADRE_COSTO'],
+                "rank" : RPL['TOPOLOGIA'][ip]['RANGO'],
+                "cost" : RPL['TOPOLOGIA'][ip]['COSTO']
+            }
+            padres.append(entrada)
+        return padres
 
 class RPLRoutingTable(StateDataListHandler):
     def generate_list(self, node_ii: InstanceRoute, username: str, staging: bool) -> JsonNodeT:
@@ -29,17 +41,15 @@ class RPLRoutingTable(StateDataListHandler):
             }
             rutas.append(par)
         return rutas
-class Prueba(StateDataContainerHandler):
-    def generate_node(self, node_ii: InstanceRoute, username: str, staging: bool) -> JsonNodeT:
-        return 0;
 
 def register_state_handlers(ds: BaseDatastore):
     handlers = [
-        RPLNodesCount(ds,RUTA_RPL+ "/routing-modes/upward-routing" + \
+        RPLPreferredParents(ds, RUTA_RPL+ "/routing-modes/upward-routing" + \
+        "/node-preferred-parents/node-preferred-parent"),
+        RPLNodesCount(ds, RUTA_RPL+ "/routing-modes/upward-routing" + \
         "/dodag-topology/num-of-nodes"),
         RPLRoutingTable(ds, RUTA_RPL + "/routing-modes/downward-routing" + \
         "/routing-table"),
-
         #Siguiente
     ]
     for handler in handlers:
