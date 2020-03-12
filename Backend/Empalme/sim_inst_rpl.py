@@ -46,14 +46,14 @@ RPL = {
             "COSTO" : 3
         },
         "2001:db8:0:1::7" : {
-            "PADRE" : "2001:db8:0:1::2",
+            "PADRE" : "2001:db8:0:1::5",
             "PADRE_RANGO" : 1,
             "PADRE_COSTO" : 1.7,
             "RANGO" : 2,
             "COSTO" : 2.2
         },
         "2001:db8:0:1::8" : {
-            "PADRE" : "2001:db8:0:1::2",
+            "PADRE" : "2001:db8:0:1::7",
             "PADRE_RANGO" : 2,
             "PADRE_COSTO" : 1.1,
             "RANGO" : 3,
