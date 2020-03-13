@@ -53,6 +53,11 @@
                 }
               ]
             },
+            "metrics" : {
+              "metric" : [
+                "ETX"
+              ]
+            },
             "interfaces": {
               "interface": [
                 {

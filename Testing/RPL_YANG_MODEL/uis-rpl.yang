@@ -102,6 +102,16 @@ module uis-rpl {
     }
   }
 
+  typedef metric-ref {
+    description
+      "Reference to a metric type.";
+    type leafref {
+      path "/rt:routing/rt:control-plane-protocols/"
+        + "rt:control-plane-protocol" +
+        "/rpl:rpl/rpl:metrics/rpl:metric";
+    }
+  }
+
 
   // grouping statements
 
@@ -372,6 +382,17 @@ module uis-rpl {
           }
         } //Fin contenedor de funciones objetivo
 
+        container metrics {
+          description
+            "Metrics information container.";
+
+          leaf-list metric {
+            type string;
+            min-elements 1;
+            description "A list of metrics.";
+          }
+        }
+
         // Contenedor de direccionamiento
         container routing-modes {
           config false;
@@ -462,6 +483,12 @@ module uis-rpl {
                   "The OF used in the current RPL instance.
                    All DODAGs in the same RPL Instance use the same OF.
                    RFC6550 section 3.1.2.";
+              }
+
+              leaf metric {
+                type rpl:metric-ref;
+                description
+                  "The metric used in the current RPL instance.";
               }
 
               leaf num-of-nodes {
