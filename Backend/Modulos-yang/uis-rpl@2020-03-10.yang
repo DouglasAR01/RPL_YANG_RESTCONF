@@ -462,7 +462,10 @@ module uis-rpl {
                 }
 
                 leaf parent-cost {
-                  type uint16;
+                  type decimal64 {
+                    fraction-digits 5;
+                    range 0..max;
+                  }
                   description
                     "The cost set up by the implemented metric at the
                      preferred-parent node.
