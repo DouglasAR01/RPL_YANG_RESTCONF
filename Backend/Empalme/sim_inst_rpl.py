@@ -50,7 +50,7 @@ RPL = {
             "PADRE_RANGO" : 1,
             "PADRE_COSTO" : 1.7,
             "RANGO" : 2,
-            "COSTO" : 2.2
+            "COSTO" : 2.7
         },
         "2001:db8:0:1::8" : {
             "PADRE" : "2001:db8:0:1::7",

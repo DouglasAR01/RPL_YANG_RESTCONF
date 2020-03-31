@@ -23,7 +23,7 @@ class RPLPreferredParents(StateDataListHandler):
             entrada = {
                 "ipv6-address" : ip,
                 "parent-ipv6-address" : RPL['TOPOLOGIA'][ip]['PADRE'],
-                "parent-rank" : RPL['TOPOLOGIA'][ip]['RANGO'],
+                "parent-rank" : RPL['TOPOLOGIA'][ip]['PADRE_RANGO'],
                 "parent-cost" : RPL['TOPOLOGIA'][ip]['PADRE_COSTO'],
                 "rank" : RPL['TOPOLOGIA'][ip]['RANGO'],
                 "cost" : RPL['TOPOLOGIA'][ip]['COSTO']
